@@ -1,4 +1,18 @@
-class MainPage(object):
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from ui.locators import basic_locators
+
+RETRY_COUNT = 3
+
+
+class BasePage(object):
+    locators = basic_locators.BasePageLocators()
+
+    def __init__(self, driver):
+        self.driver = driver
+
     def find(self, locator, timeout=None) -> WebElement:
         # нотация WebElement удобна тем, что у метода find становятся доступны методы WebElement
         # а это очень удобно
@@ -36,3 +50,8 @@ class MainPage(object):
 
         self.wait(timeout).until(lambda browser: len(browser.find_elements(*locator)) == count)
 
+    def search(self, query):
+        search_field = self.find(self.locators.QUERY_LOCATOR)
+        search_field.clear()
+        search_field.send_keys(query)
+        self.find(self.locators.GO_BUTTON).click()
