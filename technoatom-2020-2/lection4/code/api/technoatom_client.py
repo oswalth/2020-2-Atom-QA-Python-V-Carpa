@@ -40,8 +40,15 @@ class TechnoAtomClient:
 
         return response.json()
 
-    def _request(self, method, location, headers, data, json):
-        url = urljoin(self.base_url, location)
+    def _request(self, method, url, location, headers, data, json):
+        if location:
+            url = urljoin(self.base_url, location)
+
+        response = self.session.request(method=method, url=url, headers=headers, data=data)
+
+        if json:
+            return response.json()
+        return response
 
     def get_token(self):
         location = 'pages/index'
