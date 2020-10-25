@@ -1,6 +1,7 @@
 # Nginx access log parser
 * Parser could be ran using both python and bash.
 * Script scans current directory or directory provided by user as an argument, and processes all files with .log extension.
+* !!!IMPORTANT - if  you specify logs directory, all logs should be placed in folder called `logs`
 
 ## Bash 
 1. Run script 
