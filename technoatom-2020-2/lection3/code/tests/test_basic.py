@@ -3,8 +3,6 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 import allure
-from selenium.webdriver.support.wait import WebDriverWait
-
 from tests.base import BaseCase
 from ui.locators import basic_locators
 
@@ -25,10 +23,7 @@ class Test(BaseCase):
     def test_search_negative(self):
         self.search_page.search('23132173152361253675216735126735132516736712')
         self.search_page.find(self.search_page.locators.NO_RESULTS).is_displayed()
-    def wait(self, timeout=None):
-        if timeout is None:
-            timeout = 5
-        return WebDriverWait(self.driver, timeout=timeout)
+
     @pytest.mark.skip(reason='no need')
     def test_carousel(self):
         self.main_page.click(self.main_page.locators.COMPREHENSIONS, timeout=12)
