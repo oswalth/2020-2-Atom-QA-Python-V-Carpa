@@ -1,5 +1,5 @@
-from .models.models import Base, File, Log
-from .orm_client.mysql_orm_client import MySqlOrmConnector
+from models.models import Base, File, Log
+from orm_client.mysql_orm_client import MySqlOrmConnector
 
 
 class MySqlBuilder:

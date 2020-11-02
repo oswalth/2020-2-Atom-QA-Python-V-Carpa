@@ -4,37 +4,8 @@ import re
 from datetime import datetime
 import sys
 
-from homework.hw5.code.models.models import File, Log
-from homework.hw5.code.orm_builder import MySqlBuilder
-from homework.hw5.code.orm_client.mysql_orm_client import MySqlOrmConnector
-
-
-def count_requests(log_table):
-    return log_table.shape[0]
-
-
-def count_requests_by_type(log_table):
-    request_type_count = log_table.groupby(by="Method")['IPv4'].count().to_dict()
-    return {k: v for k, v in request_type_count.items() if re.match(r"^[A-Z]{3,}", k)}
-
-
-def biggest_requests(log_table):
-    log_table['Size'] = log_table['Size'].replace('-', 0)
-    log_table['Size'] = log_table['Size'].astype(int)
-    return log_table.sort_values(by='Size', ascending=False).iloc[:10, [3, 5, 6]].values.tolist()
-
-
-def biggest_client_error(log_table):
-    client_error = log_table[log_table['Code_status'].str.startswith("4")]
-    group_count = client_error.groupby(by=['Url', 'Code_status', 'IPv4']).size().reset_index(name="Count")
-    return group_count.sort_values(by='Count', ascending=False).iloc[:10, [0, 1, 2, 3]].values.tolist()
-
-
-def biggest_server_error(log_table):
-    server_error = log_table[log_table['Code_status'].str.startswith("5")]
-    return server_error.sort_values(by="Size", ascending=False).iloc[:, [0, 3, 6]][:10].values.tolist()
-
-
+from orm_client.mysql_orm_client import MySqlOrmConnector
+from tests.orm_builder import MySqlBuilder
 
 
 class Loggggger:
@@ -45,8 +16,10 @@ class Loggggger:
         self.output_dir = self.get_output()
         self.log_dir = os.path.join(self.cwd, 'logs')
         self.pattern = re.compile(
-            r"^(?P<ipv4>\d{1,3}(?:\.\d{1,3}){3}).*\[(?P<datetime>[0-3][0-9]\/[A-z][a-z]{2}\/\d{4}:[0-2][0-9]:[0-5][0-9]:["
-            r"0-5][0-9]\s\+\d{4})\]\s\"(?P<method>\S*)\s(?P<url>\S*)\s(?P<req_ver>\S*)\"\s(?P<code_status>[1-5]\d{2})\s(?P<size>\S*)\s\"(?P<option_1>.*)\"\s\"("
+            r"^(?P<ipv4>\d{1,3}(?:\.\d{1,3}){3}).*\[(?P<datetime>[0-3][0-9]\/[A-z][a-z]{2}\/\d{4}:[0-2][0-9]:[0-5]["
+            r"0-9]:["
+            r"0-5][0-9]\s\+\d{4})\]\s\"(?P<method>\S*)\s(?P<url>\S*)\s(?P<req_ver>\S*)\"\s(?P<code_status>[1-5]\d{"
+            r"2})\s(?P<size>\S*)\s\"(?P<option_1>.*)\"\s\"("
             r"?P<option_2>.*)\"\s\"(?P<option_3>.*)\"")
 
         self.run()
@@ -72,7 +45,7 @@ class Loggggger:
     def get_log_values(self, line):
         try:
             log = self.pattern.match(line).groupdict()
-            log['datetime'] = datetime.strptime(log['datetime'], "%d/%b/%Y:%H:%M:%S %z")
+            log['datetime'] = str(datetime.strptime(log['datetime'], "%d/%b/%Y:%H:%M:%S %z"))
             log['code_status'] = int(log['code_status'])
             if log['size'].isdigit():
                 log['size'] = int(log['size'])
@@ -95,8 +68,7 @@ class Loggggger:
                             self.builder.add_log(log, file_id)
                     except AttributeError:
                         return
-            # files = self.mysql.session.query(File).all()
-            # logs = self.mysql.session.query(Log).all()
+
 
 def main():
     loggggger = Loggggger()

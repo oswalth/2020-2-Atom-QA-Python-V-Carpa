@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, Text
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -22,7 +22,7 @@ class Log(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     file_id = Column(Integer, ForeignKey(f'{File.__tablename__}.{File.id.name}'), nullable=False)
     ipv4 = Column(String(15), nullable=False)
-    datetime = Column(Date, nullable=False, default='1970-01-01')
+    datetime = Column(DateTime(timezone=True), nullable=False, default='1970-01-01')
     method = Column(Text, nullable=False)
     url = Column(String(2000), nullable=False)
     req_ver = Column(String(20), nullable=False)
