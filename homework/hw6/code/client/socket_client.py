@@ -17,7 +17,6 @@ class SocketClient:
         except ConnectionRefusedError:
             return {'msg': f'TURNOFF_ERROR-{self.host}:{self.port}', 'code': 500}
 
-
     def get_response(self):
         total_data = []
         while True:
@@ -74,9 +73,9 @@ class SocketClient:
             return connect_error
         str_headers = "\r\n".join([f"{header[0]}: {header[1]}" for header in headers])
         request = (f""
-                  f"PUT {params} HTTP/1.1\r\n"
-                  f"{str_headers}\r\n"
-                  f"Content-Length: {str(len(data))}\r\n\r\n{data}")
+                   f"PUT {params} HTTP/1.1\r\n"
+                   f"{str_headers}\r\n"
+                   f"Content-Length: {str(len(data))}\r\n\r\n{data}")
 
         self.client.send(request.encode())
         return self.get_response()

@@ -13,7 +13,6 @@ class MockHandlerRequests(BaseHTTPRequestHandler):
         self.send_header("Content-type", 'application/json')
         self.end_headers()
 
-
     def do_GET(self):
         if self.path == '/timeout':
             time.sleep(2)
@@ -79,6 +78,7 @@ class MockHandlerRequests(BaseHTTPRequestHandler):
 
         self._set_response(code)
         self.wfile.write(message.encode())
+
 
 class SimpleHttpServer:
     def __init__(self, host, port):

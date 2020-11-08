@@ -32,7 +32,7 @@ class TestServer:
     @pytest.mark.API
     def test_mock_timeout(self, socket_client):
         with pytest.raises(TimeoutError):
-            response = socket_client.get_('/timeout')
+            socket_client.get_('/timeout')
 
     @pytest.mark.API
     def test_server_500(self, socket_client):
@@ -87,10 +87,10 @@ class TestServer:
     def test_put_positive(self, socket_client):
         data = {"post": "first message", "edited": "last message"}
         response = socket_client.put_(params="/",
-                                       data=json.dumps(data),
-                                       headers=[("Host", "127.0.0.1"),
-                                                ('Authorization', 'alpha'),
-                                                ("Content-Type", "application/json")])
+                                      data=json.dumps(data),
+                                      headers=[("Host", "127.0.0.1"),
+                                               ('Authorization', 'alpha'),
+                                               ("Content-Type", "application/json")])
         code, message = response.get('code', '-1'), response.get('post')
         assert int(code) == 200 and message == data.get('edited')
 
@@ -98,9 +98,9 @@ class TestServer:
     def test_put_unauthorized(self, socket_client):
         data = {"post": "first message", "edited": "last message"}
         response = socket_client.put_(params="/",
-                                       data=json.dumps(data),
-                                       headers=[("Host", "127.0.0.1"),
-                                                ("Content-Type", "application/json")])
+                                      data=json.dumps(data),
+                                      headers=[("Host", "127.0.0.1"),
+                                               ("Content-Type", "application/json")])
         code, message = response.get('code', '-1'), response.get('msg')
         assert int(code) == 403 and message == "Unauthorized access"
 
@@ -108,10 +108,10 @@ class TestServer:
     def test_put_user_not_found(self, socket_client):
         data = {"post": "first message", "edited": "last message"}
         response = socket_client.put_(params="/",
-                                       data=json.dumps(data),
-                                       headers=[("Host", "127.0.0.1"),
-                                                ('Authorization', 'gamma'),
-                                                ("Content-Type", "application/json")])
+                                      data=json.dumps(data),
+                                      headers=[("Host", "127.0.0.1"),
+                                               ('Authorization', 'gamma'),
+                                               ("Content-Type", "application/json")])
         code, message = response.get('code', '-1'), response.get('msg')
         assert int(code) == 400 and message == "User not found"
 
@@ -119,10 +119,10 @@ class TestServer:
     def test_put_incorrect_request_body(self, socket_client):
         data = '{"post": "first message", "edited": "last message}'
         response = socket_client.put_(params="/",
-                                       data=data,
-                                       headers=[("Host", "127.0.0.1"),
-                                                ('Authorization', 'alpha'),
-                                                ("Content-Type", "application/json")])
+                                      data=data,
+                                      headers=[("Host", "127.0.0.1"),
+                                               ('Authorization', 'alpha'),
+                                               ("Content-Type", "application/json")])
         code, message = response.get('code', '-1'), response.get('msg')
         assert int(code) == 400 and message == "Incorrect request body"
 

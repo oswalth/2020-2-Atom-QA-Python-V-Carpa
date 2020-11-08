@@ -49,7 +49,7 @@ def fast_request():
     client = SocketClient(host=settings.MOCK_HOST, port=settings.MOCK_PORT)
     response = client.get_(params='/timeout')
     code = response.get('code', 500)
-    return make_response(jsonify(response), 500)
+    return make_response(jsonify(response), code)
 
 
 @app.route('/server_error')
