@@ -1,6 +1,5 @@
 import json
 import socket
-import time
 from json.decoder import JSONDecodeError
 
 
@@ -81,15 +80,3 @@ class SocketClient:
 
         self.client.send(request.encode())
         return self.get_response()
-
-
-if __name__ == '__main__':
-    client = SocketClient(host="127.0.0.1", port=1050)
-    # print(client.get_(params='/timeout'))
-    # print(client.post_(params="/", data='{"post":"second message"}', headers=[("Host", "127.0.0.1"), ('Authorization', 'gamma'), ("Content-Type", "application/json")]))
-    # print(client.put_(params="/", data='{"post":"first message", "edited":"last message"}', headers=[("Host", "127.0.0.1"), ('Authorization', 'vova'), ("Content-Type", "application/json")]))
-    print(client.post_(params="/",
-                                       data=data,
-                                       headers=[("Host", "127.0.0.1"),
-                                                ('Authorization', 'alpha'),
-                                                ("Content-Type", "application/json")]))

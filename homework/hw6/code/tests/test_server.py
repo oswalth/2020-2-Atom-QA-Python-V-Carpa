@@ -1,10 +1,6 @@
 import json
 import time
-
 import pytest
-import requests
-
-from atom_app import flask_app
 from mocks.mock_http_server import SimpleHttpServer
 from client.socket_client import SocketClient
 import settings
@@ -15,7 +11,6 @@ class TestMock:
     def setup(self, app_server, socket_client):
         self.app = app_server
         yield time.sleep(3)
-        # requests.get('http://127.0.0.1:1050')
 
     @pytest.mark.API
     def test_mock_off(self, socket_client):
@@ -33,7 +28,6 @@ class TestServer:
         yield
         client = SocketClient(settings.APP_HOST, settings.APP_PORT)
         client.get_(params="/shutdown")
-        # requests.get('http://127.0.0.1:1050')
 
     @pytest.mark.API
     def test_mock_timeout(self, socket_client):

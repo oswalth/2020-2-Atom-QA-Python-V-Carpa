@@ -1,8 +1,6 @@
 import threading
 import settings
 from flask import Flask, jsonify, request, make_response
-from json import loads
-from json.decoder import JSONDecodeError
 from client.socket_client import SocketClient
 
 
@@ -58,7 +56,6 @@ def fast_request():
 def server_error():
     client = SocketClient(host=settings.MOCK_HOST, port=settings.MOCK_PORT)
     response = client.get_(params='/server_error')
-    print(response)
     return make_response(jsonify(response), 500)
 
 
