@@ -11,7 +11,7 @@ def test_1_negative(prepare):
 
 
 def test_2_positive(prepare):
-    assert 6 // 2 == 3
+    assert 6 / 2 == 3.0
 
 
 def test_3_negative(prepare):
