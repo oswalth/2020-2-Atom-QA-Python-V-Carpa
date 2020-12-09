@@ -1,0 +1,17 @@
+overload:
+  enabled: true
+  token_file: /var/loadtest/tokent.txt
+  package: yandextank.plugins.DataUploader
+  job_name: test_atom_const
+  job_dsc: test_atom-hw_const_load
+phantom:
+  address: 172.17.0.1:5555
+  ammofile: /var/loadtest/ammo.txt
+  connection_test: false
+  load_profile:
+    load_type: rps
+    schedule: const(2, 30)
+telegraf:
+  enabled: false
+console:
+  enabled: true

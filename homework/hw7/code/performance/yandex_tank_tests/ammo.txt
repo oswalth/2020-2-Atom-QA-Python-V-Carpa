@@ -1,0 +1,16 @@
+[Connection: close]
+[Host: 172.27.0.1/22:5555]
+/
+
+[Connection: close]
+[Host: 172.27.0.1/22:5555]
+/products/1
+
+[Connection: close]
+[Host: 172.27.0.1/22:5555]
+/products/4
+
+[Connection: close]
+[Host: 172.27.0.1/22:5555]
+[Authorization: Basic dm92YToxMjM=]
+/profile
